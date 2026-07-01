@@ -18,7 +18,7 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{
-  width:100%;height:100%;font-family:var(--font);overflow:hidden;touch-action:none;
+  width:100%;height:100%;max-width:none;font-family:var(--font);overflow:hidden;touch-action:none;
   background:#042080;color:#fff;user-select:none;-webkit-user-select:none;
 }
 
@@ -42,7 +42,7 @@ html,body{
 
 /* ── SMALL FT HEADER (Screen 2 + gameplay) ────────────── */
 .ft-header{
-  position:fixed;top:0;left:0;right:0;max-width:480px;
+  position:fixed;top:0;left:0;right:0;max-width:none;
   height:54px;display:none;align-items:center;
   padding:0 16px;z-index:200;
   background:linear-gradient(180deg,rgba(4,32,128,.98) 60%,transparent 100%);
@@ -57,7 +57,7 @@ html,body{
    SCREEN 1 · OPENING
 ═══════════════════════════════════════════════ */
 #introWrap{
-  position:fixed;inset:0;max-width:480px;
+  position:fixed;inset:0;max-width:none;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:0 0 16px;overflow-y:auto;z-index:100;
 }
@@ -134,7 +134,7 @@ html,body{
    SCREEN 2 · HOW TO PLAY
 ═══════════════════════════════════════════════ */
 #howToPlayWrap{
-  position:fixed;inset:0;max-width:480px;
+  position:fixed;inset:0;max-width:none;
   display:none;flex-direction:column;
   overflow-y:auto;z-index:100;
   padding:54px 0 20px;
@@ -183,7 +183,7 @@ html,body{
    NAME ENTRY
 ═══════════════════════════════════════════════ */
 #nameWrap{
-  position:fixed;inset:0;max-width:480px;
+  position:fixed;inset:0;max-width:none;
   display:none;align-items:center;justify-content:center;
   z-index:110;background:rgba(4,32,128,.97);padding:24px;
 }
@@ -211,7 +211,7 @@ html,body{
    COUNTDOWN
 ═══════════════════════════════════════════════ */
 #countdownWrap{
-  position:fixed;inset:0;max-width:480px;
+  position:fixed;inset:0;max-width:none;
   display:none;align-items:center;justify-content:center;
   z-index:150;background:rgba(4,32,128,.98);
 }
@@ -229,12 +229,12 @@ html,body{
 /* ═══════════════════════════════════════════════
    SCREEN 3 · GAMEPLAY
 ═══════════════════════════════════════════════ */
-#gameWrap{display:none;position:fixed;inset:0;max-width:480px}
-#gameCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+#gameWrap{display:none;position:fixed;inset:0;width:100vw;height:100vh;max-width:none;overflow:visible}
+#gameCanvas{position:fixed;top:0;left:0;display:block;touch-action:none}
 
 /* HUD row */
 .game-hud{
-  position:fixed;top:0;left:0;right:0;max-width:480px;
+  position:fixed;top:0;left:0;right:0;max-width:none;
   display:flex;flex-direction:column;gap:0;
   z-index:10;pointer-events:none;
   background:linear-gradient(180deg,rgba(4,32,128,.97) 60%,transparent 100%);
@@ -295,7 +295,7 @@ html,body{
   background:linear-gradient(135deg,var(--ft-teal),var(--ft-blue4));
   border-radius:100px;padding:7px 20px;font-weight:800;font-size:16px;z-index:30;
   box-shadow:0 4px 20px rgba(0,0,0,.4);
-  transition:transform .25s cubic-bezier(.34,1.56,.64,1);max-width:480px;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1);max-width:none;
 }
 .combo-pop.show{transform:translateX(-50%) scale(1)}
 
@@ -312,7 +312,7 @@ html,body{
 
 /* Blind overlay */
 #blindOverlay{
-  position:fixed;inset:0;max-width:480px;
+  position:fixed;inset:0;max-width:none;
   background:#000;display:none;
   align-items:center;justify-content:center;z-index:80;
   flex-direction:column;gap:18px;
@@ -337,7 +337,7 @@ html,body{
    END SCREEN
 ═══════════════════════════════════════════════ */
 #endWrap{
-  position:fixed;inset:0;max-width:480px;
+  position:fixed;inset:0;max-width:none;
   display:none;flex-direction:column;align-items:center;
   padding:60px 22px 28px;overflow-y:auto;z-index:100;
 }
@@ -396,23 +396,57 @@ html,body{
 .disclaimer{
   position:fixed;bottom:max(6px,env(safe-area-inset-bottom));left:0;right:0;
   text-align:center;font-size:10px;color:rgba(255,255,255,.38);
-  letter-spacing:.3px;z-index:40;pointer-events:none;padding:0 12px;max-width:480px;
+  letter-spacing:.3px;z-index:40;pointer-events:none;padding:0 12px;max-width:none;
 }
 
 /* ── LAYOUT / SAFE AREA ──────────────────────── */
-body{max-width:480px;margin:0 auto}
-.ft-header,.game-hud,.disclaimer{max-width:480px;left:50%;right:auto;transform:translateX(-50%);width:100%}
-.combo-pop{max-width:480px}
+body{max-width:none;margin:0}
+.ft-header,.game-hud,.disclaimer{max-width:none;left:0;right:0;width:100%}
+.combo-pop{max-width:none}
 .combo-pop.show{transform:translateX(-50%) scale(1)}
-#introWrap,#howToPlayWrap,#endWrap,#nameWrap,#countdownWrap,#gameWrap,#blindOverlay{
-  max-width:480px;left:50%;right:auto;transform:translateX(-50%);width:100%;
+#introWrap,#howToPlayWrap,/* gameWrap handled separately */
+#endWrap,#nameWrap,#countdownWrap,#blindOverlay{
+  max-width:none!important;
 }
+#gameWrap{max-width:none!important;left:0!important;right:0!important;}
 @supports (padding-top:env(safe-area-inset-top)){
   .ft-header{padding-top:max(8px,env(safe-area-inset-top));height:calc(54px + env(safe-area-inset-top))}
   #introWrap{padding-top:env(safe-area-inset-top)}
   #howToPlayWrap{padding-top:calc(54px + env(safe-area-inset-top))}
   #endWrap{padding-top:calc(60px + env(safe-area-inset-top));padding-bottom:max(28px,env(safe-area-inset-bottom))}
 }
+
+/* ═══════════════ VIRTUAL KEYBOARD ═══════════════ */
+#vkbDisplay{
+  font-family:var(--font);font-size:22px;font-weight:700;color:#fff;
+  letter-spacing:2px;text-align:center;
+  background:rgba(255,255,255,.08);border:1.5px solid var(--ft-blue2);
+  border-radius:12px;padding:12px 16px;margin-bottom:12px;
+  min-height:48px;line-height:1.4;
+  display:flex;align-items:center;justify-content:center;gap:4px;
+}
+#vkbDisplay .vkb-cursor{
+  display:inline-block;width:2px;height:1.2em;
+  background:var(--ft-teal3);animation:blink .8s step-end infinite;
+  vertical-align:middle;margin-left:2px;
+}
+@keyframes blink{50%{opacity:0}}
+.vkb-grid{display:flex;flex-direction:column;gap:6px;margin-bottom:10px;}
+.vkb-row{display:flex;justify-content:center;gap:5px;}
+.vkb-key{
+  flex:1;max-width:36px;height:38px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(228,236,244,.25);
+  border-radius:8px;color:#fff;font-family:var(--font);font-size:14px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .12s,transform .1s;user-select:none;-webkit-user-select:none;
+  touch-action:manipulation;
+}
+.vkb-key:active,.vkb-key.pressed{background:var(--ft-teal3);transform:scale(.92);}
+.vkb-key.wide{max-width:54px;font-size:12px;}
+.vkb-key.space-key{max-width:120px;font-size:11px;}
+
+
+
 </style>
 </head>
 <body>
@@ -503,8 +537,9 @@ body{max-width:480px;margin:0 auto}
   <div class="name-card">
     <h3>Enter your name</h3>
     <p>Your score will be saved to the leaderboard.</p>
-    <input class="name-input" id="playerName" type="text" maxlength="18" placeholder="Your name…" autocomplete="off">
-    <button class="name-go-btn" onclick="startCountdown()">Let's go</button>
+    <div id="vkbDisplay"><span id="vkbText"></span><span class="vkb-cursor"></span></div>
+    <div class="vkb-grid" id="vkbGrid"></div>
+    <button class="name-go-btn" id="vkbGoBtn" onclick="vkbConfirm()">Let's go</button>
   </div>
 </div>
 
@@ -753,17 +788,15 @@ function showHTP(){
 function showNameEntry(){
   document.getElementById('howToPlayWrap').style.display = 'none';
   document.getElementById('nameWrap').style.display = 'flex';
-  setTimeout(() => document.getElementById('playerName').focus(), 100);
+  initVKB();
 }
 function goHome(){ location.reload(); }
 
-document.getElementById('playerName').addEventListener('keydown', e => { if(e.key==='Enter') startCountdown(); });
+/* VKB handles name entry */
 
 /* ---- Countdown ---- */
 function startCountdown(){
-  const inp = document.getElementById('playerName').value.trim();
-  playerName = inp.length >= 1 ? inp.toUpperCase() : 'NINJA';
-  document.getElementById('nameWrap').style.display = 'none';
+  /* playerName already set by vkbConfirm */
   document.getElementById('countdownWrap').style.display = 'flex';
   let n = 3;
   const el = document.getElementById('cdNum');
@@ -786,10 +819,14 @@ let W, H, DPR;
 
 function resize(){
   DPR = window.devicePixelRatio || 1;
-  W = window.innerWidth; H = window.innerHeight;
-  cv.width = W*DPR; cv.height = H*DPR;
-  cv.style.width = W+'px'; cv.style.height = H+'px';
-  ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR,DPR);
+  W = window.innerWidth;
+  H = window.innerHeight;
+  cv.width  = Math.round(W * DPR);
+  cv.height = Math.round(H * DPR);
+  cv.style.width  = W + 'px';
+  cv.style.height = H + 'px';
+  ctx.setTransform(1,0,0,1,0,0);
+  ctx.scale(DPR, DPR);
 }
 window.addEventListener('resize', resize); resize();
 
@@ -1372,6 +1409,108 @@ function endGame(){
     </div>`;
   }).join('');
 }
+
+/* ================================================================
+   VIRTUAL KEYBOARD
+   ================================================================ */
+(function(){
+  const ROWS = [
+    ['Q','W','E','R','T','Y','U','I','O','P'],
+    ['A','S','D','F','G','H','J','K','L'],
+    ['⌫','Z','X','C','V','B','N','M','⏎']
+  ];
+  let vkbVal = '';
+  const MAX = 18;
+
+  function renderDisplay(){
+    const el = document.getElementById('vkbText');
+    if(el) el.textContent = vkbVal;
+  }
+
+  function buildGrid(){
+    const grid = document.getElementById('vkbGrid');
+    if(!grid) return;
+    grid.innerHTML = '';
+    ROWS.forEach(row => {
+      const rowDiv = document.createElement('div');
+      rowDiv.className = 'vkb-row';
+      row.forEach(k => {
+        const btn = document.createElement('button');
+        btn.className = 'vkb-key' + (k==='⌫'||k==='⏎' ? ' wide' : '');
+        btn.textContent = k;
+        btn.setAttribute('type','button');
+        btn.addEventListener('pointerdown', e => {
+          e.preventDefault();
+          btn.classList.add('pressed');
+          if(k === '⌫'){
+            vkbVal = vkbVal.slice(0,-1);
+          } else if(k === '⏎'){
+            vkbConfirm(); return;
+          } else {
+            if(vkbVal.length < MAX) vkbVal += k;
+          }
+          renderDisplay();
+        });
+        btn.addEventListener('pointerup', () => btn.classList.remove('pressed'));
+        rowDiv.appendChild(btn);
+      });
+      // Add space bar on last row
+      if(row === ROWS[ROWS.length-1]){
+        const sp = document.createElement('button');
+        sp.className = 'vkb-key space-key';
+        sp.textContent = 'SPACE';
+        sp.setAttribute('type','button');
+        sp.addEventListener('pointerdown', e => {
+          e.preventDefault();
+          sp.classList.add('pressed');
+          if(vkbVal.length < MAX) vkbVal += ' ';
+          renderDisplay();
+        });
+        sp.addEventListener('pointerup', () => sp.classList.remove('pressed'));
+        rowDiv.appendChild(sp);
+      }
+      grid.appendChild(rowDiv);
+    });
+  }
+
+  window.vkbConfirm = function(){
+    const v = vkbVal.trim();
+    playerName = v.length >= 1 ? v.toUpperCase() : 'NINJA';
+    document.getElementById('nameWrap').style.display = 'none';
+    startCountdown();
+  };
+
+  window.initVKB = function(){
+    vkbVal = '';
+    renderDisplay();
+    buildGrid();
+  };
+})();
+
+
+/* ================================================================
+   FULLSCREEN — request on first tap/click anywhere
+   ================================================================ */
+function requestFullscreen(){
+  const el = document.documentElement;
+  if(el.requestFullscreen) el.requestFullscreen();
+  else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  else if(el.mozRequestFullScreen) el.mozRequestFullScreen();
+  else if(el.msRequestFullscreen) el.msRequestFullscreen();
+}
+/* Trigger on first tap or key press */
+(function(){
+  function fsHandler(e){
+    requestFullscreen();
+    document.removeEventListener('keydown', fsHandler);
+    document.removeEventListener('pointerdown', fsHandler);
+    document.removeEventListener('touchstart', fsHandler);
+  }
+  document.addEventListener('keydown', fsHandler, {once:true});
+  document.addEventListener('pointerdown', fsHandler, {once:true});
+  document.addEventListener('touchstart', fsHandler, {once:true});
+})();
+
 </script>
 </body>
 </html>
