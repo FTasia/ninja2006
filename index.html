@@ -207,6 +207,12 @@ html,body{
   color:#fff;border:0;font-family:var(--font);font-size:18px;font-weight:800;
   border-radius:100px;cursor:pointer;box-shadow:0 6px 20px rgba(180,90,20,.4);
 }
+.name-disclaimer{
+  position:fixed;bottom:0;left:0;right:0;
+  font-size:11px;color:rgba(255,255,255,.45);line-height:1.5;text-align:center;
+  padding:10px 16px max(10px,env(safe-area-inset-bottom));
+  background:rgba(4,32,128,.85);z-index:120;
+}
 
 /* ═══════════════════════════════════════════════
    COUNTDOWN
@@ -545,6 +551,7 @@ body{max-width:none;margin:0}
     <div class="vkb-grid" id="vkbGrid"></div>
     <button class="name-go-btn" id="vkbGoBtn" onclick="vkbConfirm()">Let's go</button>
   </div>
+  <p class="name-disclaimer">Content in this minigame is for information only and does not constitute investment advice or a recommendation and was prepared without regard to the specific objectives, financial situation or needs of any particular person who may receive it. The value of investments and the income from them can go down as well as up and you may not get back the full amount that you invested. Past performance is not necessarily indicative nor a guarantee of future performance.<br><br>Copyright© 2026 Franklin Templeton. All rights reserved. Issued by Templeton Asset Management Ltd, Registration Number (UEN) 199205211E</p>
 </div>
 
 <!-- COUNTDOWN -->
@@ -789,7 +796,6 @@ document.addEventListener('touchstart', ensureAudio, {once:true});
 let playerName = 'NINJA';
 function showHTP(){
   document.getElementById('introWrap').style.display = 'none';
-  document.getElementById('mainHeader').style.display = 'flex';
   document.getElementById('howToPlayWrap').style.display = 'flex';
 }
 function showNameEntry(){
