@@ -877,11 +877,13 @@ class Gadget {
     this.y = H + this.r + 10;
     /* arc physics: initial upward velocity, gravity pulls down */
     const tier = isBomb ? 'mid' : (this.sector ? this.sector.tier : 'mid');
-    const baseSpeed = tier==='fast' ? (14+Math.random()*4) : tier==='mid' ? (10+Math.random()*3) : (7+Math.random()*2);
-    const angle = -(Math.PI * (0.35 + Math.random()*0.30));
+    /* Scale speeds/gravity to screen height so icons reach full canvas on any TV */
+    const sc = Math.max(1, H / 700);
+    const baseSpeed = (tier==='fast' ? (14+Math.random()*4) : tier==='mid' ? (10+Math.random()*3) : (7+Math.random()*2)) * sc;
+    const angle = -(Math.PI * (0.38 + Math.random()*0.24)); /* slightly steeper arc */
     this.vx = Math.cos(angle) * baseSpeed * (Math.random()<0.5 ? 1:-1);
     this.vy = Math.sin(angle) * baseSpeed;
-    this.gravity = tier==='fast' ? 0.16 : tier==='mid' ? 0.11 : 0.07;
+    this.gravity = (tier==='fast' ? 0.16 : tier==='mid' ? 0.11 : 0.07) * sc;
     this.rot = Math.random()*Math.PI*2;
     this.rotSpeed = (Math.random()-0.5)*0.12;
     /* Weighted: 7pt most common, 9pt moderate, 41pt rare */
@@ -1502,22 +1504,51 @@ function endGame(){
    ================================================================ */
 function requestFullscreen(){
   const el = document.documentElement;
-  if(el.requestFullscreen) el.requestFullscreen();
-  else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-  else if(el.mozRequestFullScreen) el.mozRequestFullScreen();
-  else if(el.msRequestFullscreen) el.msRequestFullscreen();
+  const p = el.requestFullscreen   ? el.requestFullscreen()
+           : el.webkitRequestFullscreen ? el.webkitRequestFullscreen()
+           : el.mozRequestFullScreen    ? el.mozRequestFullScreen()
+           : el.msRequestFullscreen     ? el.msRequestFullscreen()
+           : null;
+  return p;
 }
-/* Trigger on first tap or key press */
+/* ── Fullscreen management ── */
 (function(){
+  let fsActive = false;
+  let escPressed = false;
+
+  // Track ESC key so we don't re-enter FS after a deliberate exit
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' || e.key === 'Esc'){
+      escPressed = true;
+      // Allow re-entering on next interaction
+      setTimeout(() => { escPressed = false; }, 2000);
+    }
+  });
+
+  // Re-enter fullscreen automatically if exited without ESC
+  document.addEventListener('fullscreenchange', function(){
+    fsActive = !!(document.fullscreenElement || document.webkitFullscreenElement);
+    if(!fsActive && !escPressed){
+      // Small delay so browser allows re-entry after user gesture
+      setTimeout(requestFullscreen, 300);
+    }
+  });
+  document.addEventListener('webkitfullscreenchange', function(){
+    fsActive = !!(document.fullscreenElement || document.webkitFullscreenElement);
+    if(!fsActive && !escPressed){
+      setTimeout(requestFullscreen, 300);
+    }
+  });
+
+  // Enter fullscreen on first interaction
+  let triggered = false;
   function fsHandler(e){
+    if(triggered) return;
+    triggered = true;
     requestFullscreen();
-    document.removeEventListener('keydown', fsHandler);
-    document.removeEventListener('pointerdown', fsHandler);
-    document.removeEventListener('touchstart', fsHandler);
   }
-  document.addEventListener('keydown', fsHandler, {once:true});
   document.addEventListener('pointerdown', fsHandler, {once:true});
-  document.addEventListener('touchstart', fsHandler, {once:true});
+  document.addEventListener('keydown',     fsHandler, {once:true});
 })();
 
 </script>
